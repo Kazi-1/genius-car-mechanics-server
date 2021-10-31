@@ -7,7 +7,7 @@ require('dotenv').config()
 
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // middleWare
 app.use(cors());
@@ -37,7 +37,7 @@ async function run() {
         app.get("/services/:id", async (req, res) => {
             const id = req.params.id;
             console.log("get specific service", id);
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const service = await serviceCollection.findOne(query);
             res.json(service);
         })
@@ -45,7 +45,7 @@ async function run() {
         // Post Api
         app.post("/services", async (req, res) => {
             const service = req.body;
-           console.log('hit the post', service);
+            console.log('hit the post', service);
             const result = await serviceCollection.insertOne(service);
             console.log(result);
             res.json(result);
@@ -54,7 +54,7 @@ async function run() {
         // Delete Api
         app.delete("/services/:id", async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id)};
+            const query = { _id: ObjectId(id) };
             const result = await serviceCollection.deleteOne(query);
             res.json(result);
         })
